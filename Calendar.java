@@ -51,24 +51,24 @@ public class Calendar {
 	 // If the month changes, sets the number of days in this month.
 	 // Side effects: changes the static variables dayOfMonth, month, year, dayOfWeek, nDaysInMonth.
 	 private static void advance() {
+		dayOfWeek++;
 		if (dayOfWeek > 7) {
 			dayOfWeek = 1;
 		}
-		dayOfWeek++;
 		dayOfMonth++;
 		if (dayOfMonth > nDaysInMonth(month, year)) {
 			dayOfMonth = 1;
+			month++;
+			if (month > 12) {
+				month = 1;
+				year++;
+			}
 		}
-		month++;
-		if (month > 12){
-			month = 1;
-		}
-		year++;
 	 } 
 		 
     // Returns true if the given year is a leap year, false otherwise.
 	private static boolean isLeapYear(int year) {
-	    if ((year % 4 == 0 && year % 10 != 0) || year % 400 == 0 ) {
+	    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ) {
 			return true;
 		   }
 		   else {
@@ -81,7 +81,7 @@ public class Calendar {
 	// February has 28 days in a common year, and 29 days in a leap year.
 	// All the other months have 31 days.
 	private static int nDaysInMonth(int month, int year) {
-		if (month == 4 || month == 6 || month == 10 || month == 11){
+		if (month == 4 || month == 6 || month == 9 || month == 11){
 			return 30;
 		}
 		else if (month != 2) {

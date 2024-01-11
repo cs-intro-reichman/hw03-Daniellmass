@@ -43,6 +43,7 @@ public class LoanCalc {
 		double increment = 0.001;
         while (endBalance(loan, rate, n, g) >= epsilon && g <= loan) {
 			g += increment; 
+			iterationCounter++;
 		}
 		return g;   
     }
@@ -54,7 +55,7 @@ public class LoanCalc {
 	* the number of periods (n), and epsilon, a tolerance level.
 	*/
 	// Side effect: modifies the class variable iterationCounter.
-    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
+    public static double bisectionSolver(double loan, double rate, int n, double epsilon) { 
 		double L = 1.0;
 		double H = loan / n;
 		double g = (L + H) / 2;
@@ -66,6 +67,7 @@ public class LoanCalc {
 				H = g; 		
 			}
 			g = (H + L) / 2;
+			iterationCounter++;
 		}
     	return g;
     }
@@ -75,11 +77,10 @@ public class LoanCalc {
 	* interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	*/
 	private static double endBalance(double loan, double rate, int n, double payment) {
-		double currentBalance = 0;
-		for( int i = 0; i < n; i++) {
-			currentBalance = (loan - payment) * (1 + rate);
-			loan = currentBalance;
-		}		
-    	return currentBalance;
+		double currentBalance = loan;
+		for (int i = 0; i < n; i++) {
+			currentBalance = (currentBalance * (1 + rate / 100)) - payment;
+		}
+		return currentBalance;
 	}
 }
